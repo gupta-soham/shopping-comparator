@@ -1,0 +1,379 @@
+{% extends "base.html" %} {% block title %}Dashboard - Shopping Comparator
+Backend{% endblock %} {% block content %}
+<div class="space-y-8">
+  <!-- Header -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">Backend Dashboard</h1>
+        <p class="text-slate-600 mt-2">
+          Monitor and manage your shopping comparison service
+        </p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+        <span class="text-sm text-slate-600">System Online</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-600">API Status</p>
+          <p class="text-2xl font-bold text-green-600">Healthy</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-6 h-6 text-green-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-600">Database</p>
+          <p class="text-2xl font-bold text-blue-600">SQLite</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-6 h-6 text-blue-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-600">Cache</p>
+          <p class="text-2xl font-bold text-purple-600">Redis</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-6 h-6 text-purple-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-600">WebSocket</p>
+          <p class="text-2xl font-bold text-orange-600">Active</p>
+        </div>
+        <div
+          class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center"
+        >
+          <svg
+            class="w-6 h-6 text-orange-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">Quick Actions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <a
+        href="/admin/"
+        class="flex items-center p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors group"
+      >
+        <div
+          class="w-10 h-10 bg-slate-200 rounded-lg flex items-center justify-center mr-4 group-hover:bg-slate-300 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 text-slate-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            ></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Django Admin</h3>
+          <p class="text-sm text-slate-600">Manage database records</p>
+        </div>
+      </a>
+
+      <a
+        href="/api/health/"
+        class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors group"
+      >
+        <div
+          class="w-10 h-10 bg-green-200 rounded-lg flex items-center justify-center mr-4 group-hover:bg-green-300 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 text-green-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Health Check</h3>
+          <p class="text-sm text-slate-600">Check system status</p>
+        </div>
+      </a>
+
+      <a
+        href="/api/docs/"
+        class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group"
+      >
+        <div
+          class="w-10 h-10 bg-blue-200 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-300 transition-colors"
+        >
+          <svg
+            class="w-5 h-5 text-blue-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            ></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">API Documentation</h3>
+          <p class="text-sm text-slate-600">View API endpoints</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- System Information -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">
+      System Information
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="font-medium text-slate-900 mb-4">Backend Services</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Django REST Framework</span>
+            <span
+              class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
+              >Active</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Celery Worker</span>
+            <span
+              class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
+              >Active</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">WebSocket Channels</span>
+            <span
+              class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
+              >Active</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Redis Cache</span>
+            <span
+              class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs"
+              >Active</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 class="font-medium text-slate-900 mb-4">Supported Sites</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Myntra</span>
+            <span
+              class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"
+              >Enabled</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Meesho</span>
+            <span
+              class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"
+              >Enabled</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Nykaa</span>
+            <span
+              class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"
+              >Enabled</span
+            >
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-slate-600">Fab India</span>
+            <span
+              class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"
+              >Enabled</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">Recent Activity</h2>
+    <div class="space-y-4">
+      <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+        >
+          <svg
+            class="w-4 h-4 text-blue-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-slate-900 font-medium">Search request processed</p>
+          <p class="text-slate-600 text-sm">
+            Query: "cotton kurta" • Sites: Myntra, Meesho
+          </p>
+        </div>
+        <span class="text-slate-500 text-sm">2 min ago</span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"
+        >
+          <svg
+            class="w-4 h-4 text-green-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-slate-900 font-medium">Health check passed</p>
+          <p class="text-slate-600 text-sm">All services running normally</p>
+        </div>
+        <span class="text-slate-500 text-sm">5 min ago</span>
+      </div>
+
+      <div class="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"
+        >
+          <svg
+            class="w-4 h-4 text-purple-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-slate-900 font-medium">Database optimized</p>
+          <p class="text-slate-600 text-sm">Search indexes updated</p>
+        </div>
+        <span class="text-slate-500 text-sm">1 hour ago</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

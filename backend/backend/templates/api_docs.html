@@ -1,0 +1,343 @@
+{% extends "base.html" %} {% block title %}API Documentation - Shopping
+Comparator Backend{% endblock %} {% block content %}
+<div class="space-y-8">
+  <!-- Header -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">API Documentation</h1>
+        <p class="text-slate-600 mt-2">
+          Complete guide to using the Shopping Comparator API
+        </p>
+      </div>
+      <div class="flex items-center space-x-2">
+        <span
+          class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
+          >v1.0.0</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Start -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">Quick Start</h2>
+    <div class="bg-slate-50 rounded-lg p-6">
+      <h3 class="font-medium text-slate-900 mb-4">Base URL</h3>
+      <code class="bg-slate-800 text-slate-100 px-4 py-2 rounded-lg block"
+        >http://localhost:8000</code
+      >
+    </div>
+  </div>
+
+  <!-- Endpoints -->
+  <div class="space-y-6">
+    <!-- Search Endpoint -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold text-slate-900">POST /api/search/</h3>
+        <span
+          class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+          >Search</span
+        >
+      </div>
+
+      <p class="text-slate-600 mb-6">
+        Create a new search job to find products across multiple shopping sites.
+      </p>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-medium text-slate-900 mb-3">Request Body</h4>
+          <div class="bg-slate-50 rounded-lg p-4">
+            <pre class="text-sm text-slate-800"><code>{
+  "prompt": "cotton kurta",
+  "sites": ["myntra", "meesho", "nykaa", "fabindia"],
+  "filters": {
+    "min_price": 500,
+    "max_price": 2000,
+    "category": "clothing",
+    "site": "myntra"
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-medium text-slate-900 mb-3">Response</h4>
+          <div class="bg-green-50 rounded-lg p-4">
+            <pre class="text-sm text-green-800"><code>{
+  "job_id": "abc123-def456-ghi789"
+}</code></pre>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-medium text-slate-900 mb-3">Parameters</h4>
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-slate-200">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                  >
+                    Parameter
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                  >
+                    Type
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                  >
+                    Required
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider"
+                  >
+                    Description
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-slate-200">
+                <tr>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900"
+                  >
+                    prompt
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                  >
+                    string
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-green-600"
+                  >
+                    Yes
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-500">
+                    Search query (e.g., "cotton kurta")
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900"
+                  >
+                    sites
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                  >
+                    array
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                  >
+                    No
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-500">
+                    Array of site names to search
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900"
+                  >
+                    filters
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                  >
+                    object
+                  </td>
+                  <td
+                    class="px-6 py-4 whitespace-nowrap text-sm text-slate-500"
+                  >
+                    No
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-500">
+                    Optional filters for search
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Status Endpoint -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold text-slate-900">
+          GET /api/search/{job_id}/
+        </h3>
+        <span
+          class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium"
+          >Status</span
+        >
+      </div>
+
+      <p class="text-slate-600 mb-6">
+        Get the status and results of a search job.
+      </p>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-medium text-slate-900 mb-3">Response</h4>
+          <div class="bg-green-50 rounded-lg p-4">
+            <pre class="text-sm text-green-800"><code>{
+  "status": "completed",
+  "results": [
+    {
+      "title": "Cotton Kurta",
+      "price": 1299,
+      "site": "myntra",
+      "image_url": "https://...",
+      "product_url": "https://..."
+    }
+  ],
+  "logs": ["Search started", "Found 15 products"]
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Check Endpoint -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-semibold text-slate-900">GET /api/health/</h3>
+        <span
+          class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium"
+          >Health</span
+        >
+      </div>
+
+      <p class="text-slate-600 mb-6">
+        Check the health status of the backend service.
+      </p>
+
+      <div class="space-y-6">
+        <div>
+          <h4 class="font-medium text-slate-900 mb-3">Response</h4>
+          <div class="bg-green-50 rounded-lg p-4">
+            <pre class="text-sm text-green-800"><code>{
+  "status": "healthy",
+  "timestamp": "2025-01-14T10:30:00Z",
+  "service": "shopping-comparator-backend"
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WebSocket -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">
+      WebSocket Real-time Updates
+    </h2>
+    <div class="bg-blue-50 rounded-lg p-6">
+      <h3 class="font-medium text-slate-900 mb-4">Connection URL</h3>
+      <code class="bg-blue-800 text-blue-100 px-4 py-2 rounded-lg block"
+        >ws://localhost:8000/ws/search/{job_id}/</code
+      >
+
+      <h3 class="font-medium text-slate-900 mb-4 mt-6">Real-time Messages</h3>
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm font-medium text-slate-700 mb-2">Search Started:</p>
+          <pre class="text-sm text-blue-800 bg-blue-100 p-3 rounded"><code>{
+  "type": "search_started",
+  "job_id": "abc123",
+  "message": "Search initiated"
+}</code></pre>
+        </div>
+
+        <div>
+          <p class="text-sm font-medium text-slate-700 mb-2">
+            Progress Update:
+          </p>
+          <pre class="text-sm text-blue-800 bg-blue-100 p-3 rounded"><code>{
+  "type": "progress",
+  "job_id": "abc123",
+  "message": "Searching Myntra...",
+  "progress": 25
+}</code></pre>
+        </div>
+
+        <div>
+          <p class="text-sm font-medium text-slate-700 mb-2">
+            Search Completed:
+          </p>
+          <pre class="text-sm text-blue-800 bg-blue-100 p-3 rounded"><code>{
+  "type": "search_completed",
+  "job_id": "abc123",
+  "results": [...],
+  "total_products": 45
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supported Sites -->
+  <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+    <h2 class="text-xl font-semibold text-slate-900 mb-6">
+      Supported Shopping Sites
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="flex items-center p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4"
+        >
+          <span class="text-pink-600 font-bold text-lg">M</span>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Myntra</h3>
+          <p class="text-sm text-slate-600">Fashion & Lifestyle</p>
+        </div>
+      </div>
+
+      <div class="flex items-center p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4"
+        >
+          <span class="text-orange-600 font-bold text-lg">M</span>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Meesho</h3>
+          <p class="text-sm text-slate-600">Fashion & Home</p>
+        </div>
+      </div>
+
+      <div class="flex items-center p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4"
+        >
+          <span class="text-purple-600 font-bold text-lg">N</span>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Nykaa</h3>
+          <p class="text-sm text-slate-600">Beauty & Cosmetics</p>
+        </div>
+      </div>
+
+      <div class="flex items-center p-4 bg-slate-50 rounded-lg">
+        <div
+          class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4"
+        >
+          <span class="text-green-600 font-bold text-lg">F</span>
+        </div>
+        <div>
+          <h3 class="font-medium text-slate-900">Fab India</h3>
+          <p class="text-sm text-slate-600">Ethnic Wear</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
