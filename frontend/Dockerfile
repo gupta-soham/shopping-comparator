@@ -1,27 +1,35 @@
-# Use Node.js 18 Alpine image
-FROM node:18-alpine
+# Build stage
+FROM node:18-alpine AS build
 
-# Install build dependencies for native modules
-RUN apk add --no-cache python3 make g++
-
-# Set work directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm cache clean --force
+RUN npm ci
 
-# Copy project
+# Copy source code
 COPY . .
 
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built assets from build stage
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port
-EXPOSE 5173
+EXPOSE 80
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:5173', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+    CMD curl -f http://localhost/ || exit 1
 
-# Start the application in development mode for now
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

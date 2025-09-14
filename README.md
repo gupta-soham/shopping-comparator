@@ -17,13 +17,13 @@ A modern, real-time shopping comparison platform that aggregates product data fr
 
 ## 🎯 Overview
 
-Shopping Comparator is a full-stack web application that allows users to search for products across multiple Indian e-commerce platforms simultaneously. The platform provides real-time price comparison, filtering options, and a clean, modern interface for making informed shopping decisions.
+Shopping Comparator is a full-stack web application that allows users to search for products across multiple Indian e-commerce platforms simultaneously. The platform provides real-time price comparison, filtering options and a clean, modern interface for making informed shopping decisions.
 
 ### Key Highlights
 
-- **Multi-site Search**: Search across Myntra, Meesho, Nykaa, and Fab India simultaneously
+- **Multi-site Search**: Search across Myntra, Meesho, Nykaa and Fab India simultaneously
 - **Real-time Updates**: WebSocket-powered live search progress updates
-- **Advanced Filtering**: Price range, category, material, and website-specific filters
+- **Advanced Filtering**: Price range, category, material and website-specific filters
 - **Modern UI**: Clean, responsive React frontend with shadcn/ui components
 - **Scalable Backend**: Django REST API with Celery async processing
 - **Professional Admin**: Comprehensive backend management interface
@@ -202,6 +202,39 @@ Shopping Comparator is a full-stack web application that allows users to search 
 5. **Real-time Updates** → WebSocket broadcasts progress
 6. **Display** → Frontend shows results with filtering
 
+## 🔧 Production Configuration
+
+### Docker Production Features
+
+- **Optimized Builds**: Multi-stage Docker builds for smaller production images
+- **Health Monitoring**: Built-in health checks for all services
+- **Environment Security**: Centralized configuration with secure Redis authentication
+- **Production Frontend**: Nginx serving optimized React build with proper caching
+- **Service Dependencies**: Proper startup order and health-based service dependencies
+- **Resource Limits**: Configured memory and CPU limits for production stability
+
+### Environment Architecture
+
+```text
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Root .env     │    │  Docker Compose │    │   Services      │
+│                 │    │                 │    │                 │
+│  • All configs  │───►│  • Environment  │───►│  • Frontend     │
+│  • VITE vars    │    │    variables    │    │    (nginx)      │
+│  • Secrets      │    │  • Service deps │    │  • Backend      │
+└─────────────────┘    └─────────────────┘    │    (Django)     │
+                                              │  • Redis        │
+                                              │  • Celery       │
+                                              └─────────────────┘
+```
+
+### Security Enhancements
+
+- **Redis Authentication**: Password-protected Redis instance
+- **Environment Variables**: All sensitive data externalized
+- **CORS Configuration**: Properly configured for production domains
+- **Secret Management**: Secure key management for production deployments
+
 ## 🚀 Setup & Installation
 
 ### Prerequisites
@@ -217,19 +250,40 @@ Shopping Comparator is a full-stack web application that allows users to search 
 git clone https://github.com/gupta-soham/shopping-comparator
 cd shopping-comparator
 
-# Copy environment files
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
-# Edit environment variables
-# Add your SerpAPI key to backend/.env
+# Copy environment file
+cp .env.example .env
 
-# Start all services
-docker-compose up -d
+# Edit environment variables (add your SerpAPI key)
+# nano .env  # or your preferred editor
+
+# Build and start all services
+docker-compose up --build -d
 
 # Access the application
-# Frontend: http://localhost:5173
-# Backend: http://localhost:8000
+# Frontend: http://localhost (port 80)
+# Backend API: http://localhost:8000
 # Admin: http://localhost:8000/admin
+# API Docs: http://localhost:8000/api/docs/
+```
+
+### Production Deployment
+
+For production deployment, update your `.env` file with production values:
+
+```env
+# Production settings
+DEBUG=False
+SECRET_KEY=your-secure-production-secret-key-here
+ALLOWED_HOSTS=your-production-domain.com
+CORS_ALLOWED_ORIGINS=https://your-production-domain.com
+VITE_API_BASE_URL=https://your-production-domain.com
+VITE_WS_BASE_URL=wss://your-production-domain.com
+```
+
+Then deploy with:
+
+```bash
+docker-compose up -d --build
 ```
 
 ### Manual Development Setup
@@ -245,10 +299,6 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-
-# Copy and configure environment
-cp .env.example .env
-# Edit .env with your API keys
 
 # Run migrations
 python manage.py migrate
@@ -271,32 +321,48 @@ cd frontend
 # Install dependencies
 npm install
 
-# Copy and configure environment
-cp .env.example .env
-
 # Start development server
 npm run dev
 ```
 
 ### Environment Variables
 
-#### Backend (.env)
+#### Root .env Configuration
+
+Copy `.env.example` to `.env` and configure the following variables:
 
 ```env
+# SerpApi Configuration
+SERPAPI_KEY=your-serpapi-key-here
+
+# Redis Configuration
+REDIS_PASSWORD=your_secure_redis_password
+
+# Django Configuration
+SECRET_KEY=your-secret-key-change-this-in-production
 DEBUG=True
-SECRET_KEY=your-secret-key
-SERPAPI_KEY=your-serpapi-key
-REDIS_URL=redis://localhost:6379
-CELERY_BROKER_URL=redis://localhost:6379/0
-DATABASE_URL=sqlite:///db.sqlite3
-```
+ALLOWED_HOSTS=localhost,127.0.0.1
 
-#### Frontend (.env)
+# CORS Configuration
+CORS_ALLOWED_ORIGINS=http://localhost,http://127.0.0.1
+CORS_ALLOW_CREDENTIALS=True
+CORS_ALLOWED_METHODS=GET,POST,PUT,PATCH,DELETE,OPTIONS
 
-```env
+# Frontend Configuration (passed to React app)
 VITE_API_BASE_URL=http://localhost:8000
 VITE_WS_BASE_URL=ws://localhost:8000
+
+# Database Configuration (SQLite for dev, PostgreSQL for prod)
+# DATABASE_URL=postgresql://user:password@localhost:5432/shopping_comparator
 ```
+
+**Important Notes:**
+
+- Get your free SerpAPI key from [serpapi.com](https://serpapi.com/)
+- Change `SECRET_KEY` to a secure random string in production
+- Update `ALLOWED_HOSTS` and `CORS_ALLOWED_ORIGINS` for your production domain
+- `VITE_API_BASE_URL` and `VITE_WS_BASE_URL` are automatically passed to the frontend container
+- Redis password is used internally by Docker Compose for service communication
 
 ## 📚 API Documentation
 
@@ -377,14 +443,41 @@ python manage.py test
 
 ### Production Docker Setup
 
-```bash
-# Build for production
-docker-compose -f docker-compose.prod.yml up -d
+The application is fully containerized and production-ready with:
 
-# Environment variables for production
+- **Multi-stage builds** for optimized frontend images
+- **Health checks** for all services
+- **Environment-based configuration** via single .env file
+- **Nginx production server** for frontend static files
+- **Redis authentication** for security
+- **Proper service dependencies** and networking
+
+```bash
+# For production deployment, update your .env file:
+# DEBUG=False
+# ALLOWED_HOSTS=your-production-domain.com
+# CORS_ALLOWED_ORIGINS=https://your-production-domain.com
+# VITE_API_BASE_URL=https://your-production-domain.com
+# VITE_WS_BASE_URL=wss://your-production-domain.com
+# SECRET_KEY=your-secure-production-secret-key
+
+# Build and start all services
+docker-compose up -d --build
+
+# Or for a specific environment
+docker-compose -f docker-compose.yml up -d
+```
+
+### Environment Setup for Production
+
+```env
+# Production .env settings
 DEBUG=False
-ALLOWED_HOSTS=your-domain.com
-DATABASE_URL=
+SECRET_KEY=your-secure-production-secret-key
+ALLOWED_HOSTS=your-app-name.com,your-custom-domain.com
+CORS_ALLOWED_ORIGINS=https://your-app-name.com,https://your-custom-domain.com
+VITE_API_BASE_URL=https://your-app-name.com
+VITE_WS_BASE_URL=wss://your-app-name.com
 ```
 
 ## 🤝 Contributing
@@ -407,7 +500,7 @@ DATABASE_URL=
 
 ### Commit Convention
 
-```
+```bash
 feat: add new search filter
 fix: resolve multi-site search bug
 docs: update API documentation
@@ -437,4 +530,6 @@ test: add E2E test for search functionality
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-**Built with ❤️ using Django, React, and modern web technologies**
+---
+
+Built with ❤️ using Django, React and modern web technologies
