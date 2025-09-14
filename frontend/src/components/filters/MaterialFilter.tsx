@@ -22,18 +22,20 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className="space-y-3">
-      <Label className="text-sm font-medium">Material</Label>
-      <div className="flex flex-wrap gap-2">
+    <div className="flex items-center gap-3">
+      <Label className="text-sm font-medium whitespace-nowrap">Material:</Label>
+      <div className="flex gap-2 overflow-x-auto pb-1 whitespace-nowrap">
         {AVAILABLE_MATERIALS.map((material) => {
           const isSelected = selectedMaterials.includes(material.value);
           return (
             <Badge
               key={material.value}
-              variant={isSelected ? "default" : "outline"}
-              className={`cursor-pointer transition-colors hover:scale-105 ${
-                disabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              variant="outline"
+              className={`cursor-pointer transition-colors hover:scale-105 flex-shrink-0 ${
+                isSelected
+                  ? "bg-green-500 hover:bg-green-600 text-white border-green-500"
+                  : "hover:bg-muted"
+              } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
               onClick={() => !disabled && onMaterialToggle(material.value)}
             >
               {material.label}
@@ -41,17 +43,6 @@ const MaterialFilter: React.FC<MaterialFilterProps> = ({
           );
         })}
       </div>
-      {selectedMaterials.length > 0 && (
-        <p className="text-xs text-muted-foreground">
-          Selected:{" "}
-          {selectedMaterials
-            .map(
-              (m) =>
-                AVAILABLE_MATERIALS.find((mat) => mat.value === m)?.label || m
-            )
-            .join(", ")}
-        </p>
-      )}
     </div>
   );
 };

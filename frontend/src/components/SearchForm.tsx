@@ -14,6 +14,7 @@ import { useToast } from "./ui/toast-provider";
 import { motion, AnimatePresence } from "motion/react";
 import SizeFilter from "./filters/SizeFilter";
 import MaterialFilter from "./filters/MaterialFilter";
+import SiteLogo from "./SiteLogo";
 import {
   Search,
   Filter,
@@ -33,10 +34,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   isLoading = false,
 }) => {
   const [prompt, setPrompt] = useState("");
-  const [selectedSites, setSelectedSites] = useState<string[]>([
-    "myntra",
-    "meesho",
-  ]); // Default to popular sites
+  const [selectedSites, setSelectedSites] = useState<string[]>(["myntra"]); // Default to popular sites
   const [filters, setFilters] = useState<SearchFilters>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
   const { pushToast } = useToast();
@@ -123,7 +121,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
     if (selectedSites.length === 0) {
       // Auto-select popular sites if none selected
-      setSelectedSites(["myntra", "meesho"]);
+      setSelectedSites(["myntra"]);
     }
 
     const request: SearchRequest = {
@@ -210,12 +208,23 @@ const SearchForm: React.FC<SearchFormProps> = ({
                       onCheckedChange={() => handleSiteToggle(site.name)}
                       disabled={isLoading}
                     />
-                    <Label
+                    <SiteLogo
+                      site={
+                        site.name.toLowerCase() as
+                          | "fabindia"
+                          | "meesho"
+                          | "myntra"
+                          | "nykaa"
+                      }
+                      height={20}
+                      className="flex-shrink-0"
+                    />
+                    {/* <Label
                       htmlFor={id}
                       className="flex-1 cursor-pointer font-medium"
                     >
                       {site.displayName}
-                    </Label>
+                    </Label> */}
                   </motion.div>
                 );
               })}
@@ -348,6 +357,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
               disabled={isLoading}
               className="flex-1 flex items-center gap-2"
               size="lg"
+              variant="outline"
             >
               <Search className="h-4 w-4" />
               {isLoading ? "Searching..." : "Search Products"}
@@ -355,7 +365,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
             <Button
               type="button"
               onClick={resetForm}
-              variant="outline"
+              variant="destructive"
               disabled={isLoading}
               className="flex items-center gap-2"
               size="lg"

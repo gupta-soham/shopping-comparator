@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import type { Product, SearchFilters } from "../types/api";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -8,6 +8,17 @@ import { Label } from "./ui/label";
 import { Skeleton } from "./ui/skeleton";
 import { motion, AnimatePresence } from "motion/react";
 import { ExternalLink, Star, Filter, X } from "lucide-react";
+import SiteLogo from "./SiteLogo";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
+import { GlowCard } from "./ui/spotlight-card";
 
 interface ResultsTableProps {
   products: Product[];
@@ -26,6 +37,35 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
 }) => {
   const [filters, setFilters] = useState<SearchFilters>({});
   const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Responsive items per page
+  const getItemsPerPage = () => {
+    if (typeof window !== "undefined") {
+      const width = window.innerWidth;
+      if (width < 640) return 6; // Mobile
+      if (width < 1024) return 8; // Tablet
+      return 12; // Desktop
+    }
+    return 12; // Default
+  };
+
+  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
+
+  // Update items per page on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(getItemsPerPage());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = products;
@@ -81,6 +121,20 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
 
     return filtered;
   }, [products, filters, sortField, sortDirection]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / itemsPerPage);
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredAndSortedProducts.slice(startIndex, endIndex);
+  }, [filteredAndSortedProducts, currentPage, itemsPerPage]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top of results
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSort = (field: string) => {
     if (onSort) {
@@ -289,10 +343,10 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
                   }
                 >
                   <option value="">All Websites</option>
-                  <option value="Myntra">Myntra</option>
-                  <option value="Meesho">Meesho</option>
-                  <option value="Nykaa">Nykaa</option>
-                  <option value="Fab India">Fab India</option>
+                  <option value="myntra">Myntra</option>
+                  <option value="meesho">Meesho</option>
+                  <option value="nykaa">Nykaa</option>
+                  <option value="fabindia">Fab India</option>
                 </select>
               </motion.div>
             </motion.div>
@@ -359,7 +413,7 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
 
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredAndSortedProducts.map((product, index) => (
+          {paginatedProducts.map((product, index) => (
             <motion.div
               key={`${product.site}-${product.title}-${index}`}
               initial={{ opacity: 0, y: 20 }}
@@ -370,7 +424,11 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
                 ease: "easeOut",
               }}
             >
-              <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group">
+              <GlowCard
+                glowColor="blue"
+                customSize={true}
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 group w-full"
+              >
                 <div className="relative overflow-hidden">
                   <img
                     src={product.image_url}
@@ -385,9 +443,19 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
                   <div className="absolute top-2 left-2">
                     <Badge
                       variant="secondary"
-                      className="bg-white/90 text-black"
+                      className="bg-white/90 text-black p-1"
                     >
-                      {product.site}
+                      <SiteLogo
+                        site={
+                          product.site.toLowerCase() as
+                            | "fabindia"
+                            | "meesho"
+                            | "myntra"
+                            | "nykaa"
+                        }
+                        height={20}
+                        className="drop-shadow-sm"
+                      />
                     </Badge>
                   </div>
                   {product.rating && (
@@ -440,7 +508,6 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
                       whileTap={{ scale: 0.98 }}
                     >
                       <Button
-                        variant="default"
                         size="sm"
                         asChild
                         className="w-full flex items-center justify-center gap-2"
@@ -457,15 +524,90 @@ const ResultsTable: React.FC<ResultsTableProps> = ({
                     </motion.div>
                   </div>
                 </CardContent>
-              </Card>
+              </GlowCard>
             </motion.div>
           ))}
         </div>
 
         {filteredAndSortedProducts.length !== products.length && (
           <div className="text-sm text-muted-foreground mt-6 text-center">
-            Showing {filteredAndSortedProducts.length} of {products.length}{" "}
-            products
+            Showing {paginatedProducts.length} of{" "}
+            {filteredAndSortedProducts.length} filtered products
+            {filteredAndSortedProducts.length !== products.length && (
+              <span> (from {products.length} total)</span>
+            )}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-8">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() =>
+                      currentPage > 1 && handlePageChange(currentPage - 1)
+                    }
+                    className={
+                      currentPage <= 1
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
+                </PaginationItem>
+
+                {/* Page numbers */}
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNumber;
+                  if (totalPages <= 5) {
+                    pageNumber = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNumber = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNumber = totalPages - 4 + i;
+                  } else {
+                    pageNumber = currentPage - 2 + i;
+                  }
+
+                  return (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(pageNumber)}
+                        isActive={currentPage === pageNumber}
+                        className="cursor-pointer"
+                      >
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+
+                {totalPages > 5 && currentPage < totalPages - 2 && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() =>
+                      currentPage < totalPages &&
+                      handlePageChange(currentPage + 1)
+                    }
+                    className={
+                      currentPage >= totalPages
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+
+            <div className="text-center text-sm text-muted-foreground mt-4">
+              Page {currentPage} of {totalPages}
+            </div>
           </div>
         )}
       </CardContent>

@@ -14,14 +14,7 @@ import {
 } from "./components/ui/tooltip";
 import { Skeleton } from "./components/ui/skeleton";
 import type { SearchRequest, Product, JobStatusResponse } from "./types/api";
-import {
-  ShoppingCart,
-  Github,
-  Code,
-  Palette,
-  Activity,
-  Sparkles,
-} from "lucide-react";
+import { Github, Code, Palette, Activity, Sparkles } from "lucide-react";
 import "./App.css";
 
 const App: React.FC = () => {
@@ -39,7 +32,7 @@ const App: React.FC = () => {
     const initWebSocket = () => {
       try {
         if (currentJobId) {
-          const wsUrl = `ws://localhost:8000/ws/search/${currentJobId}`;
+          const wsUrl = `${import.meta.env.VITE_WS_BASE_URL}/ws/search/${currentJobId}`;
           const ws = new WebSocket(wsUrl);
 
           ws.onopen = () => {
@@ -129,13 +122,16 @@ const App: React.FC = () => {
       setJobStatus("pending");
       addLog("Starting search...");
 
-      const response = await fetch("http://localhost:8000/api/search/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(request),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/search/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(request),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -176,7 +172,7 @@ const App: React.FC = () => {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="sticky top-0 z-40 border-b bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/80 shadow-sm"
+        className="sticky top-0 z-40 border-b border-white/20 bg-white/95 backdrop-blur-xl supports-[backdrop-filter]:bg-white/90 shadow-sm rounded-lg"
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -422,8 +418,8 @@ const App: React.FC = () => {
               transition={{ delay: 1.3, duration: 0.4 }}
               className="text-muted-foreground text-sm"
             >
-              Built with React, Django, and Playwright • Real-time search
-              powered by WebSocket
+              Built with React, Django and Playwright • Real-time search powered
+              by WebSocket
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 10 }}

@@ -16,18 +16,20 @@ const SizeFilter: React.FC<SizeFilterProps> = ({
   disabled = false,
 }) => {
   return (
-    <div className="space-y-3">
-      <Label className="text-sm font-medium">Size</Label>
-      <div className="flex flex-wrap gap-2">
+    <div className="flex items-center gap-3">
+      <Label className="text-sm font-medium whitespace-nowrap">Size:</Label>
+      <div className="flex gap-2 overflow-x-auto pb-1 whitespace-nowrap">
         {AVAILABLE_SIZES.map((size) => {
           const isSelected = selectedSizes.includes(size);
           return (
             <Badge
               key={size}
-              variant={isSelected ? "default" : "outline"}
-              className={`cursor-pointer transition-colors hover:scale-105 ${
-                disabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              variant="outline"
+              className={`cursor-pointer transition-colors hover:scale-105 flex-shrink-0 ${
+                isSelected
+                  ? "bg-green-500 hover:bg-green-600 text-white border-green-500"
+                  : "hover:bg-muted"
+              } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
               onClick={() => !disabled && onSizeToggle(size)}
             >
               {size}
@@ -35,11 +37,6 @@ const SizeFilter: React.FC<SizeFilterProps> = ({
           );
         })}
       </div>
-      {selectedSizes.length > 0 && (
-        <p className="text-xs text-muted-foreground">
-          Selected: {selectedSizes.join(", ")}
-        </p>
-      )}
     </div>
   );
 };

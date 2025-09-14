@@ -1,107 +1,240 @@
-# Shopping Comparator AI
+# 🛍️ Shopping Comparator
 
-A real-time AI-powered shopping comparison tool that scrapes multiple e-commerce sites to find the best deals on clothing and fashion items.
+A modern, real-time shopping comparison platform that aggregates product data from multiple Indian e-commerce sites using Google Shopping API via SerpAPI.
 
-## Features
+## 📋 Table of Contents
 
-- **Real-time Search**: Instant product search across multiple e-commerce platforms
-- **AI-Powered**: Intelligent product matching and filtering
-- **WebSocket Integration**: Live progress updates during searches
-- **Asynchronous Processing**: Fast, non-blocking search operations using Celery
-- **Performance Optimized**: Parallel scraping with caching for <5s response times
-- **Modern UI**: React-based frontend with responsive design
-- **Docker Ready**: Complete containerized deployment
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Development Journey](#development-journey)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Setup & Installation](#setup--installation)
+- [API Documentation](#api-documentation)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
 
-## Architecture
+## 🎯 Overview
 
-### Backend (Django + Channels)
+Shopping Comparator is a full-stack web application that allows users to search for products across multiple Indian e-commerce platforms simultaneously. The platform provides real-time price comparison, filtering options, and a clean, modern interface for making informed shopping decisions.
 
-- **Django 5.2.6**: REST API with WebSocket support
-- **Channels**: Real-time WebSocket communication
-- **Celery + Redis**: Asynchronous task processing
-- **Playwright**: Headless browser automation for scraping
-- **SQLite**: Database for development (easily configurable for production)
+### Key Highlights
 
-### Frontend (React + TypeScript)
+- **Multi-site Search**: Search across Myntra, Meesho, Nykaa, and Fab India simultaneously
+- **Real-time Updates**: WebSocket-powered live search progress updates
+- **Advanced Filtering**: Price range, category, material, and website-specific filters
+- **Modern UI**: Clean, responsive React frontend with shadcn/ui components
+- **Scalable Backend**: Django REST API with Celery async processing
+- **Professional Admin**: Comprehensive backend management interface
 
-- **React 19**: Modern component-based UI
-- **TypeScript**: Type-safe development
-- **Tailwind CSS**: Utility-first styling
-- **Native WebSocket**: Real-time updates without external libraries
+## 🛠️ Technology Stack
 
-### Infrastructure
+### Frontend
 
-- **Docker Compose**: Complete development and production setup
-- **Redis**: Caching and message broker
-- **Nginx**: Reverse proxy for production
+- **React 18** - Modern React with hooks and functional components
+- **TypeScript** - Type-safe development
+- **shadcn/ui** - Beautiful, accessible UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **Vite** - Fast build tool and dev server
+- **React Router** - Client-side routing
+- **Framer Motion** - Smooth animations and transitions
 
-## Quick Start
+### Backend
+
+- **Django 5.2** - High-level Python web framework
+- **Django REST Framework** - Powerful API toolkit
+- **PostgreSQL** - Robust database (development: SQLite)
+- **Redis** - Caching and Celery broker
+- **Celery** - Asynchronous task processing
+- **Channels** - WebSocket support for real-time updates
+
+### External Services
+
+- **SerpAPI** - Google Shopping API integration
+- **Google Shopping** - Product data source
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+
+### Testing & Quality
+
+- **Playwright** - End-to-end browser testing
+- **Vitest** - Frontend unit testing
+- **Django Test Framework** - Backend testing
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+
+## 🚀 Development Journey
+
+### Phase 1: Initial Setup & Browser Automation
+
+**Challenge**: Building a web scraper for multiple e-commerce sites
+
+- Explored browser automation with Playwright
+- Installed multiple browsers (Chrome, Firefox, WebKit)
+- Created initial scraping scripts for Myntra, Meesho, etc.
+- **Learning**: Browser automation is complex and fragile
+- **Decision**: Pivot to API-based approach for reliability
+
+### Phase 2: API Integration with SerpAPI
+
+**Challenge**: Finding reliable product data sources
+
+- Discovered SerpAPI as Google Shopping API wrapper
+- Implemented SerpAPI integration for product search
+- Created unified product data structure
+- **Learning**: API-based approach is more reliable than scraping
+- **Achievement**: Successfully fetching products from all target sites
+
+### Phase 3: Backend Architecture
+
+**Challenge**: Building scalable backend for async processing
+
+- Set up Django project with proper structure
+- Implemented Celery for background task processing
+- Added Redis for caching and message broker
+- Created WebSocket support for real-time updates
+- **Learning**: Async processing is crucial for good UX
+- **Achievement**: Robust backend handling concurrent searches
+
+### Phase 4: Frontend Development
+
+**Challenge**: Creating modern, responsive UI
+
+- Built React application with TypeScript
+- Integrated shadcn/ui component library
+- Implemented real-time search with WebSocket
+- Added advanced filtering and sorting
+- **Learning**: Component composition and state management
+- **Achievement**: Professional, user-friendly interface
+
+### Phase 5: Multi-Site Search Logic
+
+**Challenge**: Searching multiple sites efficiently
+
+- **Bug**: Only first site was being searched
+- **Root Cause**: Incorrect loop implementation in search service
+- **Fix**: Modified to make separate API calls per site
+- **Optimization**: Reduced results per site to maintain performance
+- **Testing**: Comprehensive Playwright E2E tests
+- **Achievement**: All 4 sites searched simultaneously
+
+### Phase 6: UI/UX Improvements
+
+**Challenge**: Backend UI was basic and unprofessional
+
+- Created modern dashboard with system monitoring
+- Built comprehensive API documentation interface
+- Enhanced Django admin with custom branding
+- Added responsive design and animations
+- **Learning**: Professional UI matters for developer experience
+- **Achievement**: Clean, minimal backend management interface
+
+### Phase 7: Code Quality & Testing
+
+**Challenge**: Ensuring reliability and maintainability
+
+- Implemented comprehensive test suite
+- Added error handling and logging
+- Code cleanup and documentation
+- Performance optimizations
+- **Learning**: Testing is crucial for complex async systems
+- **Achievement**: Robust, well-tested application
+
+## ✨ Features
+
+### 🔍 Core Search Features
+
+- **Multi-site Search**: Search across 4 major Indian e-commerce platforms
+- **Real-time Results**: Live progress updates via WebSocket
+- **Advanced Filters**: Price range, category, material, website filters
+- **Smart Sorting**: Sort by price, name, rating, or site
+- **Product Details**: Comprehensive product information display
+
+### 🎨 User Interface
+
+- **Modern Design**: Clean, professional interface with animations
+- **Responsive Layout**: Works perfectly on all device sizes
+- **Loading States**: Smooth loading animations and skeletons
+- **Error Handling**: User-friendly error messages and recovery
+
+### ⚙️ Backend Management
+
+- **Admin Dashboard**: System monitoring and quick actions
+- **API Documentation**: Interactive API reference
+- **Django Admin**: Professional data management interface
+- **Health Checks**: System status monitoring
+- **Logs & Analytics**: Comprehensive logging and monitoring
+
+### 🔧 Technical Features
+
+- **Async Processing**: Celery-powered background tasks
+- **Caching**: Redis-based response caching
+- **WebSocket**: Real-time communication
+- **Docker Support**: Containerized deployment
+- **API-First**: RESTful API design
+
+## 🏗️ Architecture
+
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend│    │  Django Backend │    │   External APIs │
+│                 │    │                 │    │                 │
+│  • Search Form  │◄──►│  • REST API     │◄──►│  • SerpAPI      │
+│  • Results Table│    │  • WebSocket    │    │  • Google       │
+│  • Real-time UI │    │  • Celery Tasks │    │    Shopping     │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   WebSocket     │    │     Redis       │    │   PostgreSQL    │
+│   Updates       │    │  • Cache        │    │  • Product Data │
+│                 │    │  • Celery Broker│    │  • Search Jobs  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### Data Flow
+
+1. **User Search** → Frontend sends search request
+2. **Job Creation** → Backend creates Celery task
+3. **API Calls** → SerpAPI fetches data from Google Shopping
+4. **Processing** → Results parsed and stored
+5. **Real-time Updates** → WebSocket broadcasts progress
+6. **Display** → Frontend shows results with filtering
+
+## 🚀 Setup & Installation
 
 ### Prerequisites
 
-- Docker and Docker Compose
-- Git
+- Docker & Docker Compose
+- Node.js 18+ (for frontend development)
+- Python 3.11+ (for backend development)
 
-### Development Setup
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd shopping-comparator
-   ```
-
-2. **Start the development environment**
-
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - Admin Panel: http://localhost:8000/admin/
-
-### Manual Setup (Without Docker)
-
-If you prefer to run locally without Docker, follow these steps:
-
-#### Prerequisites
-
-- Python 3.11+
-- Node.js 18+
-- Redis Server
-- Git
-
-#### 1. Install Redis
-
-**Windows:**
+### Quick Start with Docker
 
 ```bash
-# Using Chocolatey
-choco install redis-64
+# Clone the repository
+git clone https://github.com/gupta-soham/shopping-comparator
+cd shopping-comparator
 
-# Or download from: https://redis.io/download
-# Start Redis server
-redis-server
+# Copy environment files
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+# Edit environment variables
+# Add your SerpAPI key to backend/.env
+
+# Start all services
+docker-compose up -d
+
+# Access the application
+# Frontend: http://localhost:5173
+# Backend: http://localhost:8000
+# Admin: http://localhost:8000/admin
 ```
 
-**macOS:**
+### Manual Development Setup
 
-```bash
-brew install redis
-brew services start redis
-```
-
-**Linux:**
-
-```bash
-sudo apt update
-sudo apt install redis-server
-sudo systemctl start redis-server
-```
-
-#### 2. Backend Setup
+#### Backend Setup
 
 ```bash
 cd backend
@@ -113,21 +246,24 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Create .env file (copy from existing or create new)
-cp .env.example .env  # If you have an example file
-# Or create manually with the content shown below
+# Copy and configure environment
+cp .env.example .env
+# Edit .env with your API keys
 
-# Run database migrations
+# Run migrations
 python manage.py migrate
 
-# Create superuser (optional)
-python manage.py createsuperuser
+# Start Redis (if not using Docker)
+redis-server
+
+# Start Celery worker
+celery -A backend worker -l info
 
 # Start Django server
-python manage.py runserver 8000
+python manage.py runserver
 ```
 
-#### 3. Frontend Setup
+#### Frontend Setup
 
 ```bash
 cd frontend
@@ -135,332 +271,170 @@ cd frontend
 # Install dependencies
 npm install
 
+# Copy and configure environment
+cp .env.example .env
+
 # Start development server
 npm run dev
 ```
 
-#### 4. Start Celery Worker (in separate terminal)
+### Environment Variables
 
-```bash
-cd backend
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-celery -A backend worker --pool=solo --loglevel=info
-```
-
-#### Environment Configuration (.env file)
-
-Create a `.env` file in the `backend` directory:
+#### Backend (.env)
 
 ```env
-# Django Configuration
 DEBUG=True
-SECRET_KEY=your-secret-key-here
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# CORS Configuration
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-CORS_ALLOW_CREDENTIALS=True
-
-# Redis Configuration (for local Redis)
+SECRET_KEY=your-secret-key
+SERPAPI_KEY=your-serpapi-key
 REDIS_URL=redis://localhost:6379
-
-# Celery Configuration
 CELERY_BROKER_URL=redis://localhost:6379/0
-CELERY_RESULT_BACKEND=redis://localhost:6379/0
+DATABASE_URL=sqlite:///db.sqlite3
 ```
 
-#### Services Overview
+#### Frontend (.env)
 
-- **Database**: SQLite (automatic, no setup required)
-- **Redis**: Required for task queuing (Celery) and WebSocket connections
-- **Celery**: Handles asynchronous scraping tasks
-- **Django Channels**: Provides WebSocket support for real-time updates
+```env
+VITE_API_BASE_URL=http://localhost:8000
+VITE_WS_BASE_URL=ws://localhost:8000
+```
 
-#### Running All Services
+## 📚 API Documentation
 
-You'll need **4 terminals** to run everything locally:
+### Search Endpoints
 
-1. **Terminal 1 - Backend**: `cd backend && source venv/bin/activate && python manage.py runserver`
-2. **Terminal 2 - Frontend**: `cd frontend && npm run dev`
-3. **Terminal 3 - Celery**: `cd backend && source venv/bin/activate && celery -A backend worker --loglevel=info`
-4. **Terminal 4 - Redis**: `redis-server` (if not running as service)
+#### POST /api/search/
 
-#### Access Points
-
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- Django Admin: http://localhost:8000/admin/
-
-## API Documentation
-
-### REST Endpoints
-
-#### POST /api/search
-
-Initiate a new product search.
-
-**Request Body:**
+Create a new search job
 
 ```json
 {
-  "prompt": "Find red cotton shirts for men",
-  "sites": ["meesho", "myntra", "fabindia"],
+  "prompt": "cotton kurta",
+  "sites": ["myntra", "meesho", "nykaa", "fabindia"],
   "filters": {
-    "price_min": 20,
-    "price_max": 100,
-    "size": "M"
+    "min_price": 500,
+    "max_price": 2000,
+    "category": "clothing"
   }
 }
 ```
 
-**Response:**
+#### GET /api/search/{job_id}/
 
-```json
-{
-  "job_id": "abc123",
-  "status": "running",
-  "message": "Search initiated successfully"
-}
-```
-
-#### GET /api/search/{job_id}
-
-Get search results and status.
-
-**Response:**
+Get search results and status
 
 ```json
 {
   "status": "completed",
-  "results": [
-    {
-      "title": "Red Cotton Shirt",
-      "price": 29.99,
-      "size": "M",
-      "material": "cotton",
-      "image_url": "https://example.com/image.jpg",
-      "product_url": "https://example.com/product/123",
-      "site": "amazon",
-      "confidence": 0.95
-    }
-  ],
-  "logs": [
-    "Search job created and queued for processing",
-    "Searching amazon...",
-    "Found 15 products on amazon"
-  ]
+  "results": [...],
+  "logs": [...]
 }
 ```
 
-### WebSocket Integration
+### WebSocket Events
 
-Connect to `ws://localhost:8000/ws/search/{job_id}/` for real-time updates.
+- `search_started`: Search job initiated
+- `progress`: Search progress updates
+- `search_completed`: Search finished with results
 
-**Message Format:**
+## 🧪 Testing
 
-```json
-{
-  "type": "search_update",
-  "data": {
-    "status": "running",
-    "progress": 75,
-    "message": "Scraping completed for amazon"
-  }
-}
-```
-
-## Configuration
-
-### Environment Variables
-
-Create a `.env` file in the backend directory:
-
-```env
-DEBUG=True
-SECRET_KEY=your-secret-key-here
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# Database
-DATABASE_URL=sqlite:///db.sqlite3
-
-# Redis
-REDIS_URL=redis://redis:6379
-
-# Celery
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/0
-```
-
-### Supported Sites
-
-Add new e-commerce sites by creating Site objects in the admin panel:
-
-- **Name**: Unique identifier (e.g., "amazon")
-- **Base URL**: Site domain (e.g., "https://amazon.com")
-- **Search Path**: URL pattern with {query} placeholder (e.g., "/s?k={query}")
-- **Active**: Enable/disable the site
-
-## Development
-
-### Code Quality
+### End-to-End Testing with Playwright
 
 ```bash
-# Backend linting
-cd backend
-python -m flake8 .
+# Install browsers
+npx playwright install
 
-# Frontend linting
+# Run E2E tests
+npx playwright test
+
+# Run with UI
+npx playwright test --ui
+```
+
+### Frontend Unit Tests
+
+```bash
 cd frontend
-npm run lint
+npm run test
 ```
 
-### Database Management
+### Backend Tests
 
 ```bash
 cd backend
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
+python manage.py test
 ```
 
-## Deployment
+### Test Coverage
 
-### Production Setup
+- Multi-site search functionality
+- Real-time WebSocket updates
+- Filter and sort operations
+- Error handling scenarios
+- API endpoint validation
 
-1. **Update settings for production**
+## 🚢 Deployment
 
-   ```python
-   DEBUG = False
-   ALLOWED_HOSTS = ['your-domain.com']
-   ```
-
-2. **Use PostgreSQL for production**
-
-   ```python
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': 'shopping_comparator',
-           'USER': 'db_user',
-           'PASSWORD': 'db_password',
-           'HOST': 'localhost',
-           'PORT': '5432',
-       }
-   }
-   ```
-
-3. **Build and deploy**
-   ```bash
-   docker-compose -f docker-compose.prod.yml up --build
-   ```
-
-### Docker Production Configuration
-
-```yaml
-# docker-compose.prod.yml
-version: "3.8"
-services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
-    environment:
-      - DEBUG=False
-      - SECRET_KEY=your-production-secret
-    volumes:
-      - static:/app/static
-      - media:/app/media
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    volumes:
-      - static:/app/static
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - static:/app/static
-    depends_on:
-      - backend
-      - frontend
-```
-
-## Performance Optimization
-
-### Caching Strategy
-
-- Search results cached for 10 minutes
-- Browser connections reused within 5-minute windows
-- Parallel scraping limited to 3 concurrent sites
-
-### Monitoring
-
-- Celery Flower: http://localhost:5555 (development)
-- Django Admin: Real-time job monitoring
-- WebSocket: Live progress tracking
-
-## Troubleshooting
-
-### Common Issues
-
-1. **WebSocket Connection Failed**
-
-   - Ensure Redis is running
-   - Check ASGI configuration
-   - Verify firewall settings
-
-2. **Scraping Timeout**
-
-   - Increase timeout in scraping service
-   - Check network connectivity
-   - Verify site availability
-
-3. **Database Connection Error**
-   - Ensure database service is running
-   - Check connection credentials
-   - Verify database migrations
-
-### Logs
+### Production Docker Setup
 
 ```bash
-# View backend logs
-docker-compose logs backend
+# Build for production
+docker-compose -f docker-compose.prod.yml up -d
 
-# View Celery logs
-docker-compose logs celery
-
-# View Redis logs
-docker-compose logs redis
+# Environment variables for production
+DEBUG=False
+ALLOWED_HOSTS=your-domain.com
+DATABASE_URL=
 ```
 
-## Contributing
+## 🤝 Contributing
+
+### Development Workflow
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
+4. Add tests for new features
+5. Ensure all tests pass
+6. Submit a pull request
 
-4. Submit a pull request
+### Code Standards
 
-### Code Style
+- **Backend**: Follow Django best practices
+- **Frontend**: Use TypeScript and React best practices
+- **Testing**: Maintain >80% test coverage
+- **Documentation**: Update docs for API changes
 
-- Backend: PEP 8
-- Frontend: ESLint configuration
-- Commit messages: Conventional commits
+### Commit Convention
 
-## License
+```
+feat: add new search filter
+fix: resolve multi-site search bug
+docs: update API documentation
+test: add E2E test for search functionality
+```
 
-MIT License - see LICENSE file for details.
+## 📈 Future Enhancements
 
-## Support
+### Planned Features
 
-For support and questions:
+- [ ] User accounts and favorites
+- [ ] Price history tracking
+- [ ] Advanced analytics dashboard
+- [ ] Mobile app (React Native)
+- [ ] Integration with more e-commerce sites
+- [ ] AI-powered product recommendations
 
-- Create an issue on GitHub
-- Check the documentation
-- Review the troubleshooting section
+### Technical Improvements
+
+- [ ] GraphQL API implementation
+- [ ] Microservices architecture
+- [ ] Advanced caching strategies
+- [ ] Real-time price alerts
+- [ ] Performance monitoring
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**Built with ❤️ using Django, React, and modern web technologies**
