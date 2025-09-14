@@ -2,19 +2,6 @@
 
 A modern, real-time shopping comparison platform that aggregates product data from multiple Indian e-commerce sites using Google Shopping API via SerpAPI.
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Technology Stack](#technology-stack)
-- [Development Journey](#development-journey)
-- [Features](#features)
-- [Architecture](#architecture)
-- [Setup & Installation](#setup--installation)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-
 ## 🎯 Overview
 
 Shopping Comparator is a full-stack web application that allows users to search for products across multiple Indian e-commerce platforms simultaneously. The platform provides real-time price comparison, filtering options and a clean, modern interface for making informed shopping decisions.
@@ -506,25 +493,6 @@ fix: resolve multi-site search bug
 docs: update API documentation
 test: add E2E test for search functionality
 ```
-
-## 📈 Future Enhancements
-
-### Planned Features
-
-- [ ] User accounts and favorites
-- [ ] Price history tracking
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] Integration with more e-commerce sites
-- [ ] AI-powered product recommendations
-
-### Technical Improvements
-
-- [ ] GraphQL API implementation
-- [ ] Microservices architecture
-- [ ] Advanced caching strategies
-- [ ] Real-time price alerts
-- [ ] Performance monitoring
 
 ## 📄 License
 
