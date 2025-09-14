@@ -3,17 +3,22 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
+# Install Bun
+RUN apk add --no-cache curl bash && \
+    curl -fsSL https://bun.sh/install | bash && \
+    mv /root/.bun/bin/bun /usr/local/bin/
+
 # Copy package files
-COPY package*.json ./
+COPY package*.json bun.lock ./
 
 # Install dependencies
-RUN npm ci
+RUN bun install --frozen-lockfile
 
 # Copy source code
 COPY . .
 
 # Build the application
-RUN npm run build
+RUN bun run build
 
 # Production stage
 FROM nginx:alpine
